@@ -8,19 +8,25 @@ import java.awt.event.KeyListener;
 int stack = 0;
 PImage backgroundImage;
 PImage astronautImage;
+int cnt = 0;
 void setup(){
+  cnt+=1;
   backgroundImage = loadImage("JWST_hero.jpeg");
   astronautImage = loadImage("AstronautUI.png");
   astronautImage.resize(50, 50);
   p = new ArrayList <Platform>();
   float y=height/2;
-  float ory = y;
+  float ory = y; 
   for(int i=0;i<width/60;i++){
      p.add(new Platform(i*100, y));
      y+=random(-100,100);
-  }
+  } 
   pos = new PVector(20,ory);
   vel = new PVector();
+  if(cnt==1){
+    displayStart("Instructions", "Use 'A' and 'D' keys to move. Press Space to jump on platforms. (There are achievements, and easter-eggs)Press A to continue");
+  }
+  
 } 
 void settings(){
   size(800,600);
@@ -84,6 +90,7 @@ void draw(){
   text("Stage Scores: " + stack, 10, 30);
   updatePopup();
   updateAchievementPopup();
+  updatePop();
 }
 void keyPressed(){
   if(key=='a'){
@@ -98,7 +105,7 @@ void keyPressed(){
     }
   }
   if(key == '1'){
-    displayPopup("Achievement Unlocked", "How did you find it out!(typed 1 on keyboard)");
+    displayAchievementPopup("Achievement Unlocked", "How did you find it out!(typed 1 on keyboard)");
   }
 }
 void keyReleased(){
@@ -109,6 +116,55 @@ void keyReleased(){
    moving = 0; 
   }
 }
+
+int popupStart;
+boolean displayPop = false;
+String popupTit;
+String popupMess;
+
+void displayStart(String title, String message) {
+  int popupWidth = 600;
+  int popupHeight = 600;
+  int popupX = width/2 - popupWidth/2;
+  int popupY = height/2 - popupHeight/2;
+
+  popupTit = title;
+  popupMess = message;
+  popupStart = millis();
+  displayPop = true;
+}
+
+void updatePop() {
+  int popupDuration = 20000; // 3 seconds
+  if(key=='a'){
+    popupDuration = 0;
+  }
+  if (displayPop) {
+    int elapsedTime = millis() - popupStart;
+    
+    if (elapsedTime >= popupDuration) {
+      displayPop = false;
+    } else {
+      int popupWidth = 800;
+      int popupHeight = 600;
+      int popupX = width/2 - popupWidth/2;
+      int popupY = height/2 - popupHeight/2;
+  
+      fill(255);
+      rect(popupX, popupY, popupWidth, popupHeight);
+      
+      fill(0);
+      textAlign(CENTER, CENTER);
+      textSize(20);
+      text(popupTit, popupX + popupWidth/2, popupY + 30);
+      
+      textSize(10);
+      text(popupMess, popupX + popupWidth/2, popupY + popupHeight/2);
+    }
+  }
+}
+
+
 int popupStartTime;
 boolean displayPopup = false;
 String popupTitle;

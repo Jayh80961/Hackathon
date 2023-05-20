@@ -6,8 +6,9 @@ float moving = 0;
 float walk = 4;
 import java.awt.event.KeyListener;
 int stack = 0;
-
+PImage backgroundImage;
 void setup(){
+  BackgroundImage = loadImage("JWST_hero.jpeg");
   p = new ArrayList <Platform>();
   float y=height/2;
   float ory = y;
@@ -22,7 +23,7 @@ void settings(){
   size(800,600);
 }
 void draw(){
-  background(255);
+  image(backgroundImage, 0, 0);
   iscolliding = false;
   for(Platform i:p){
     i.show();

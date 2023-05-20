@@ -8,7 +8,7 @@ import java.awt.event.KeyListener;
 int stack = 0;
 PImage backgroundImage;
 void setup(){
-  BackgroundImage = loadImage("JWST_hero.jpeg");
+  backgroundImage = loadImage("JWST_hero.jpeg");
   p = new ArrayList <Platform>();
   float y=height/2;
   float ory = y;
@@ -71,7 +71,7 @@ void draw(){
     setup();
     stack+=1;
   }
-  fill(25,100,20);
+  fill(255,255,255);
   stroke(0);
   ellipse(pos.x,pos.y-8,16,16);
   if(!iscolliding){

@@ -10,7 +10,7 @@ class Platform {
     Random rand = new Random();
     int imageIndex = rand.nextInt(4) + 1;
     platformImage = loadImage("platformUI" + imageIndex + ".png");
-    platformImage.resize(50, 50);  // Resize the image to 50x50
+    platformImage.resize(40, 40);  // Resize the image to 50x50
   }
 
   void show() {

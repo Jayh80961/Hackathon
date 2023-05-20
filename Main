@@ -7,8 +7,11 @@ float walk = 4;
 import java.awt.event.KeyListener;
 int stack = 0;
 PImage backgroundImage;
+PImage astronautImage;
 void setup(){
   backgroundImage = loadImage("JWST_hero.jpeg");
+  astronautImage = loadImage("AstronautUI.png");
+  astronautImage.resize(50, 50);
   p = new ArrayList <Platform>();
   float y=height/2;
   float ory = y;
@@ -67,7 +70,7 @@ void draw(){
   }
   fill(255,255,255);
   stroke(0);
-  ellipse(pos.x,pos.y-8,16,16);
+  image(astronautImage, pos.x - 15, pos.y - 20);
   if(!iscolliding){
     vel.y+=0.2;
   }

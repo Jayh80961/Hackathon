@@ -35,31 +35,30 @@ void draw(){
   if(pos.y>height){
      setup(); 
      displayPopup("Game Over", "You completed the total of " + stack + " levels.");
-     println("        ");
-     if(stack >=5&&stack<10){
-       println("Acheivment get! 'Becoming the pro...(completed 5 levels)'");
-     }
-     if(stack >=10&&stack<15){
-       println("Acheivment get! 'You became the pro!(completed 10 levels)'");
-     }
-     if(stack >=15&&stack<20){
-       println("Acheivment get! 'The way to glory...(completed 20 levels)'");
-     }
-     if(stack >=20&&stack<25){
-       println("Acheivment get! 'Almost there....(completed 25 levels)'");
-     }
-     if(stack >=25&&stack<30){
-       println("Acheivment get! 'How is the possible!(completed 30 levels)'");
-     }
-     if(stack >=30&&stack<40){
-       println("Acheivment get! 'How is the possible!(completed 30 levels)'");
-     }
-     if(stack >=40&&stack<50){
-       println("Acheivment get! 'Did not expect you to get this....!(completed 40 levels)'");
-     }
-     if(stack >=50){
-       println("Acheivment get! 'WHAT ARE YOU!!!!(completed over 50 levels/final achievment)'");
-     }
+     if (stack >= 5 && stack < 10) {
+      displayAchievementPopup("Achievement Unlocked", "Becoming the pro...(completed 5 levels)");
+    }
+    if (stack >= 10 && stack < 15) {
+      displayAchievementPopup("Achievement Unlocked", "You became the pro!(completed 10 levels)");
+    }
+    if (stack >= 15 && stack < 20) {
+      displayAchievementPopup("Achievement Unlocked", "The way to glory...(completed 20 levels)");
+    }
+    if (stack >= 20 && stack < 25) {
+      displayAchievementPopup("Achievement Unlocked", "Almost there....(completed 25 levels)");
+    }
+    if (stack >= 25 && stack < 30) {
+      displayAchievementPopup("Achievement Unlocked", "How is it possible!(completed 30 levels)");
+    }
+    if (stack >= 30 && stack < 40) {
+      displayAchievementPopup("Achievement Unlocked", "How is it possible!(completed 30 levels)");
+    }
+    if (stack >= 40 && stack < 50) {
+      displayAchievementPopup("Achievement Unlocked", "Did not expect you to get this....!(completed 40 levels)");
+    }
+    if (stack >= 50) {
+      displayAchievementPopup("Achievement Unlocked", "WHAT ARE YOU!!!!(completed over 50 levels/final achievement)");
+    }
      stack = 0;
   }
   if(pos.x>width){
@@ -81,6 +80,7 @@ void draw(){
   textSize(20);
   text("Stage Scores: " + stack, 10, 30);
   updatePopup();
+  updateAchievementPopup();
 }
 void keyPressed(){
   if(key=='a'){
@@ -147,6 +147,50 @@ void updatePopup() {
       
       textSize(18);
       text(popupMessage, popupX + popupWidth/2, popupY + popupHeight/2);
+    }
+  }
+}
+int achievementPopupStartTime;
+boolean displayAchievementPopup = false;
+String achievementTitle;
+String achievementMessage;
+
+void displayAchievementPopup(String title, String message) {
+  int achievementPopupWidth = 400;
+  int achievementPopupHeight = 120;
+  int achievementPopupX = width - achievementPopupWidth - 20;
+  int achievementPopupY = 20;
+
+  achievementTitle = title;
+  achievementMessage = message;
+  achievementPopupStartTime = millis();
+  displayAchievementPopup = true;
+}
+
+void updateAchievementPopup() {
+  int achievementPopupDuration = 2000; // 2 seconds
+  
+  if (displayAchievementPopup) {
+    int elapsedTime = millis() - achievementPopupStartTime;
+    
+    if (elapsedTime >= achievementPopupDuration) {
+      displayAchievementPopup = false;
+    } else {
+      int achievementPopupWidth = 400;
+      int achievementPopupHeight = 120;
+      int achievementPopupX = width - achievementPopupWidth - 20;
+      int achievementPopupY = 20;
+  
+      fill(255);
+      rect(achievementPopupX, achievementPopupY, achievementPopupWidth, achievementPopupHeight);
+      
+      fill(0);
+      textAlign(CENTER, CENTER);
+      textSize(15);
+      text(achievementTitle, achievementPopupX + achievementPopupWidth/2, achievementPopupY + 30);
+      
+      textSize(15);
+      text(achievementMessage, achievementPopupX + achievementPopupWidth/2, achievementPopupY + achievementPopupHeight/2);
     }
   }
 }

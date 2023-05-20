@@ -34,12 +34,7 @@ void draw(){
   }
   if(pos.y>height){
      setup(); 
-     println("        ");
-     println("        ");
-     println("        ");
-     println("        ");
-     println("you failed! Stack reseted ~ -_-");
-     println("You completed the total of " + stack +" levels.");
+     displayPopup("Game Over", "You completed the total of " + stack + " levels.");
      println("        ");
      if(stack >=5&&stack<10){
        println("Acheivment get! 'Becoming the pro...(completed 5 levels)'");
@@ -81,6 +76,11 @@ void draw(){
   pos.add(vel);
   pos.x+=moving;
   vel.mult(0.9);
+  
+  fill(255);
+  textSize(20);
+  text("Stage Scores: " + stack, 10, 30);
+  updatePopup();
 }
 void keyPressed(){
   if(key=='a'){
@@ -95,7 +95,7 @@ void keyPressed(){
     }
   }
   if(key == '1'){
-    println("Acheivment get! 'How did you find it out!(typed 1 on key board)'");
+    displayPopup("Achievement Unlocked", "How did you find it out!(typed 1 on keyboard)");
   }
 }
 void keyReleased(){
@@ -104,5 +104,49 @@ void keyReleased(){
   }
   if(key=='d'){
    moving = 0; 
+  }
+}
+int popupStartTime;
+boolean displayPopup = false;
+String popupTitle;
+String popupMessage;
+
+void displayPopup(String title, String message) {
+  int popupWidth = 300;
+  int popupHeight = 150;
+  int popupX = width/2 - popupWidth/2;
+  int popupY = height/2 - popupHeight/2;
+
+  popupTitle = title;
+  popupMessage = message;
+  popupStartTime = millis();
+  displayPopup = true;
+}
+
+void updatePopup() {
+  int popupDuration = 3000; // 3 seconds
+  
+  if (displayPopup) {
+    int elapsedTime = millis() - popupStartTime;
+    
+    if (elapsedTime >= popupDuration) {
+      displayPopup = false;
+    } else {
+      int popupWidth = 330;
+      int popupHeight = 150;
+      int popupX = width/2 - popupWidth/2;
+      int popupY = height/2 - popupHeight/2;
+  
+      fill(255);
+      rect(popupX, popupY, popupWidth, popupHeight);
+      
+      fill(0);
+      textAlign(CENTER, CENTER);
+      textSize(24);
+      text(popupTitle, popupX + popupWidth/2, popupY + 30);
+      
+      textSize(18);
+      text(popupMessage, popupX + popupWidth/2, popupY + popupHeight/2);
+    }
   }
 }

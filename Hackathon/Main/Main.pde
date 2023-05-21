@@ -25,7 +25,7 @@ void setup(){
   pos = new PVector(20,ory);
   vel = new PVector();
   if(cnt==1){
-    displayStart("Instructions", "Use 'A' and 'D' keys to move. Press Space to jump on platforms. (There are achievements, and easter-eggs) *Press A to continue");
+    displayStart("Space Traveler", "*Press A to Start* (Press 'i' for Information)");
   }
   
 } 
@@ -108,7 +108,7 @@ void keyPressed(){
     }
   }
   if(key == 'i'){
-    displayStart("Instructions", "Use 'A' and 'D' keys to move. Press Space to jump on platforms. (There are achievements, and easter-eggs) *Press A to continue");
+    displayStart("Instructions", "Use 'A' and 'D' keys to move. Press Space to jump on platforms. *Press A to continue*");
   }
   if(key == '1'){
     displayAchievementPopup("Achievement Unlocked", "How did you find it out!(typed 1 on keyboard)");
@@ -157,20 +157,27 @@ void updatePop() {
       int popupX = width/2 - popupWidth/2;
       int popupY = height/2 - popupHeight/2;
   
+      fill(127, 0, 255);
+      gradientRect(popupX, popupY, popupWidth, popupHeight);
+
       fill(255);
-      rect(popupX, popupY, popupWidth, popupHeight);
-      
-      fill(0);
       textAlign(CENTER, CENTER);
       textSize(20);
-      text(popupTit, popupX + popupWidth/2, popupY + 30);
-      
-      textSize(10);
-      text(popupMess, popupX + popupWidth/2, popupY + popupHeight/2);
+      text(popupTit, popupX + popupWidth / 2, popupY + 30);
+
+      textSize(18);
+      text(popupMess, popupX + popupWidth / 2, popupY + popupHeight / 2);
     }
   }
 }
-
+void gradientRect(int x, int y, int w, int h) {
+  for (int i = y; i < y + h; i++) {
+    float inter = map(i, y, y + h, 0, 1);
+    int c = lerpColor(color(127, 0, 255), color(0), inter);
+    stroke(c);
+    line(x, i, x + w, i);
+  }
+}
 
 int popupStartTime;
 boolean displayPopup = false;

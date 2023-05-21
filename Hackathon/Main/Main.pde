@@ -111,7 +111,7 @@ void keyPressed(){
     displayStart("Instructions", "Use 'A' and 'D' keys to move. Press Space to jump on platforms. *Press A to continue*");
   }
   if(key == 'g'){
-    displayStart("Goals", "Get pass as much planets as possible to collect all trash");
+    displayStart("Goals", "Get pass as much planets as possible to collect all trash *Press A to continue*");
   }
   if(key == '1'){
     displayAchievementPopup("Achievement Unlocked", "How did you find it out!(typed 1 on keyboard)");

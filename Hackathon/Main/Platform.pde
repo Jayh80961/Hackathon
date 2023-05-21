@@ -1,4 +1,4 @@
-<<<<<<< Updated upstream
+
 import java.util.Random;
 
 class Platform {

@@ -73,7 +73,7 @@ void draw(){
   }
   if(pos.x>width){
     setup();
-    stack+=10;
+    stack+=1;
   }
   fill(255,255,255);
   stroke(0);

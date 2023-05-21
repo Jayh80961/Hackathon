@@ -8,19 +8,26 @@ import java.awt.event.KeyListener;
 int stack = 0;
 PImage backgroundImage;
 PImage astronautImage;
+int cnt = 0;
+int keep=0;
 void setup(){
+  cnt+=1;
   backgroundImage = loadImage("JWST_hero.jpeg");
   astronautImage = loadImage("AstronautUI.png");
   astronautImage.resize(50, 50);
   p = new ArrayList <Platform>();
   float y=height/2;
-  float ory = y;
+  float ory = y; 
   for(int i=0;i<width/60;i++){
      p.add(new Platform(i*100, y));
      y+=random(-100,100);
-  }
+  } 
   pos = new PVector(20,ory);
   vel = new PVector();
+  if(cnt==1){
+    displayStart("Instructions", "Use 'A' and 'D' keys to move. Press Space to jump on platforms. (There are achievements, and easter-eggs) *Press A to continue");
+  }
+  
 } 
 void settings(){
   size(800,600);
@@ -39,34 +46,34 @@ void draw(){
      setup(); 
      displayPopup("Game Over", "You completed the total of " + stack + " levels.");
      if (stack >= 5 && stack < 10) {
-      displayAchievementPopup("Achievement Unlocked", "Becoming the pro...(completed 5 levels)");
+      displayAchievementPopup("Achievement Unlocked", "Novice Astronaut.(completed 5 levels)");
     }
-    if (stack >= 10 && stack < 15) {
-      displayAchievementPopup("Achievement Unlocked", "You became the pro!(completed 10 levels)");
-    }
-    if (stack >= 15 && stack < 20) {
-      displayAchievementPopup("Achievement Unlocked", "The way to glory...(completed 20 levels)");
+    if (stack >= 10 && stack < 20) {
+      displayAchievementPopup("Achievement Unlocked", "Pro Astronaut!(completed 10 levels)");
     }
     if (stack >= 20 && stack < 25) {
-      displayAchievementPopup("Achievement Unlocked", "Almost there....(completed 25 levels)");
+      displayAchievementPopup("Achievement Unlocked", "Planet finder...(completed 20 levels)");
     }
     if (stack >= 25 && stack < 30) {
-      displayAchievementPopup("Achievement Unlocked", "How is it possible!(completed 30 levels)");
+      displayAchievementPopup("Achievement Unlocked", "Planet Harvester(completed 25 levels)");
     }
     if (stack >= 30 && stack < 40) {
-      displayAchievementPopup("Achievement Unlocked", "How is it possible!(completed 30 levels)");
+      displayAchievementPopup("Achievement Unlocked", "Planet Conquerer(completed 30 levels)");
     }
     if (stack >= 40 && stack < 50) {
-      displayAchievementPopup("Achievement Unlocked", "Did not expect you to get this....!(completed 40 levels)");
+      displayAchievementPopup("Achievement Unlocked", "(completed 40 levels)");
     }
     if (stack >= 50) {
-      displayAchievementPopup("Achievement Unlocked", "WHAT ARE YOU!!!!(completed over 50 levels/final achievement)");
+      displayAchievementPopup("Achievement Unlocked", "WHAT ARE YOU!!!!(completed over 50 levels/final achievement?)");
+    }
+    if (stack >= 100) {
+      displayAchievementPopup("Achievement Unlocked", "...Press 1 for easter-egg (completed over 100 levels/final achievement.)");
     }
      stack = 0;
   }
   if(pos.x>width){
     setup();
-    stack+=1;
+    stack+=10;
   }
   fill(255,255,255);
   stroke(0);
@@ -84,10 +91,13 @@ void draw(){
   text("Stage Scores: " + stack, 10, 30);
   updatePopup();
   updateAchievementPopup();
+  updatePop();
 }
 void keyPressed(){
   if(key=='a'){
-   moving = -walk; 
+    if(keep ==1){
+       moving = -walk;  
+    }
   }
   if(key=='d'){
    moving = walk; 
@@ -97,8 +107,11 @@ void keyPressed(){
       vel.y-=20;
     }
   }
+  if(key == 'i'){
+    displayStart("Instructions", "Use 'A' and 'D' keys to move. Press Space to jump on platforms. (There are achievements, and easter-eggs) *Press A to continue");
+  }
   if(key == '1'){
-    displayPopup("Achievement Unlocked", "How did you find it out!(typed 1 on keyboard)");
+    displayAchievementPopup("Achievement Unlocked", "How did you find it out!(typed 1 on keyboard)");
   }
 }
 void keyReleased(){
@@ -109,6 +122,56 @@ void keyReleased(){
    moving = 0; 
   }
 }
+
+int popupStart;
+boolean displayPop = false;
+String popupTit;
+String popupMess;
+
+void displayStart(String title, String message) {
+  int popupWidth = 600;
+  int popupHeight = 600;
+  int popupX = width/2 - popupWidth/2;
+  int popupY = height/2 - popupHeight/2;
+
+  popupTit = title;
+  popupMess = message;
+  popupStart = millis();
+  displayPop = true;
+}
+
+void updatePop() {
+  int popupDuration = 20000; // 3 seconds
+  if(key=='a'){
+    popupDuration = 0;
+    keep = 1;
+  }
+  if (displayPop) {
+    int elapsedTime = millis() - popupStart;
+    
+    if (elapsedTime >= popupDuration) {
+      displayPop = false;
+    } else {
+      int popupWidth = 800;
+      int popupHeight = 600;
+      int popupX = width/2 - popupWidth/2;
+      int popupY = height/2 - popupHeight/2;
+  
+      fill(255);
+      rect(popupX, popupY, popupWidth, popupHeight);
+      
+      fill(0);
+      textAlign(CENTER, CENTER);
+      textSize(20);
+      text(popupTit, popupX + popupWidth/2, popupY + 30);
+      
+      textSize(10);
+      text(popupMess, popupX + popupWidth/2, popupY + popupHeight/2);
+    }
+  }
+}
+
+
 int popupStartTime;
 boolean displayPopup = false;
 String popupTitle;
@@ -127,7 +190,7 @@ void displayPopup(String title, String message) {
 }
 
 void updatePopup() {
-  int popupDuration = 3000; // 3 seconds
+  int popupDuration = 2000; // 3 seconds
   
   if (displayPopup) {
     int elapsedTime = millis() - popupStartTime;
@@ -192,7 +255,7 @@ void updateAchievementPopup() {
       textSize(15);
       text(achievementTitle, achievementPopupX + achievementPopupWidth/2, achievementPopupY + 30);
       
-      textSize(15);
+      textSize(10);
       text(achievementMessage, achievementPopupX + achievementPopupWidth/2, achievementPopupY + achievementPopupHeight/2);
     }
   }

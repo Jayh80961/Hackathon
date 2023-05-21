@@ -25,7 +25,7 @@ void setup(){
   pos = new PVector(20,ory);
   vel = new PVector();
   if(cnt==1){
-    displayStart("Space Traveler", "*Press A to Start* (Press 'i' for Information)");
+    displayStart("Space Traveler", "*Press A to Start* (Press 'i' for Info, 'g' for goal)");
   }
   
 } 
@@ -44,7 +44,7 @@ void draw(){
   }
   if(pos.y>height){
      setup(); 
-     displayPopup("Game Over", "You completed the total of " + stack + " levels.");
+     displayPopup("Game Over", "You collected a total of " + stack + " Trash.");
      if (stack >= 5 && stack < 10) {
       displayAchievementPopup("Achievement Unlocked", "Novice Astronaut.(completed 5 levels)");
     }
@@ -88,7 +88,7 @@ void draw(){
   
   fill(255);
   textSize(20);
-  text("Stage Scores: " + stack, 10, 30);
+  text("Trash collected: " + stack, 90, 30);
   updatePopup();
   updateAchievementPopup();
   updatePop();
@@ -109,6 +109,9 @@ void keyPressed(){
   }
   if(key == 'i'){
     displayStart("Instructions", "Use 'A' and 'D' keys to move. Press Space to jump on platforms. *Press A to continue*");
+  }
+  if(key == 'g'){
+    displayStart("Goals", "Get pass as much planets as possible to collect all trash");
   }
   if(key == '1'){
     displayAchievementPopup("Achievement Unlocked", "How did you find it out!(typed 1 on keyboard)");
